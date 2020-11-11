@@ -29,10 +29,24 @@ public class TreeNode<K, V> {
         this.setValue(value);
     }
 
+    /**
+     * <p>
+     * TODO
+     * </p>
+     * 
+     * @return
+     */
     public int getHeight() {
         return height;
     }
 
+    /**
+     * <p>
+     * TODO
+     * </p>
+     * 
+     * @param height
+     */
     public void setHeight(int height) {
         this.height = height;
     }
@@ -90,6 +104,9 @@ public class TreeNode<K, V> {
      */
     public void setRight(TreeNode<K, V> right) {
         this.right = right;
+        if (right != null) {
+            right.setParent(this);
+        }
     }
 
     /**
@@ -112,6 +129,9 @@ public class TreeNode<K, V> {
      */
     public void setLeft(TreeNode<K, V> left) {
         this.left = left;
+        if (left != null) {
+            left.setParent(this);
+        }
     }
 
     /**
@@ -136,6 +156,11 @@ public class TreeNode<K, V> {
         this.parent = parent;
     }
 
+    /**
+     * <p>
+     * TODO
+     * </p>
+     */
     @Override
     public String toString() {
         return String.format("[%s: %s]", key.toString(), value.toString());

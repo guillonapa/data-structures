@@ -18,7 +18,8 @@ public class BinarySearchTree<K extends Comparable<K>, V> implements IBinaryTree
      * TODO
      * </p>
      */
-    public BinarySearchTree() {}
+    public BinarySearchTree() {
+    }
 
     /**
      * <p>
@@ -91,13 +92,6 @@ public class BinarySearchTree<K extends Comparable<K>, V> implements IBinaryTree
         return inserted;
     }
 
-    private int maxChildHeight(TreeNode<K, V> root) {
-        return Math.max(
-            root.left() != null ? root.left().getHeight() : 0,
-            root.right() != null ? root.right().getHeight() : 0
-        );
-    }
-
     /**
      * <p>
      * TODO
@@ -120,18 +114,18 @@ public class BinarySearchTree<K extends Comparable<K>, V> implements IBinaryTree
     private V find(K key, TreeNode<K, V> node) {
         if (node.key().equals(key)) return node.value();
         TreeNode<K, V> nextRoot;
-        if (node.key().compareTo(root.key()) < 0) {
+        if (key.compareTo(node.key()) < 0) {
             // goes to the left of the root
-            if (root.left() == null) {
+            if (node.left() == null) {
                 return null;
             }
-            nextRoot = root.left();
+            nextRoot = node.left();
         } else {
             // goes to the right of the root
-            if (root.right() == null) {
+            if (node.right() == null) {
                 return null;
             }
-            nextRoot = root.right();
+            nextRoot = node.right();
         }
         return find(key, nextRoot);
     }
@@ -150,6 +144,14 @@ public class BinarySearchTree<K extends Comparable<K>, V> implements IBinaryTree
         return null;
     }
 
+    /**
+     * <p>
+     * TODO
+     * </p>
+     * 
+     * @param key
+     * @return
+     */
     protected TreeNode<K, V> removeNode(K key) {
         if (root == null) return null;
         TreeNode<K, V> parent = null;
@@ -240,6 +242,22 @@ public class BinarySearchTree<K extends Comparable<K>, V> implements IBinaryTree
      * @param root
      * @return
      */
+    protected int maxChildHeight(TreeNode<K, V> root) {
+        if (root.left() == null && root.right() == null) {
+            return -1;
+        }
+        return Math.max(root.left() != null ? root.left().getHeight() : 0,
+                root.right() != null ? root.right().getHeight() : 0);
+    }
+
+    /**
+     * <p>
+     * TODO
+     * </p>
+     * 
+     * @param root
+     * @return
+     */
     protected TreeNode<K, V> makeMinRoot(TreeNode<K, V> root) {
         // we expect right to not be null
         if (root.left() == null) return root;
@@ -265,6 +283,11 @@ public class BinarySearchTree<K extends Comparable<K>, V> implements IBinaryTree
         return min;
     }
 
+    /**
+     * <p>
+     * TODO
+     * </p>
+     */
     @Override
     public String serialize() {
         if (root == null) return "[]";
@@ -286,7 +309,6 @@ public class BinarySearchTree<K extends Comparable<K>, V> implements IBinaryTree
                 }
                 buffer.append(String.format(",%s", ((TreeNode<?, ?>) curr).value()));
             }
-            // buffer.append(String.format(",%s", curr instanceof TreeNode ? ((TreeNode<?, ?>) curr).value() : curr));
             if (curr instanceof TreeNode) {
                 TreeNode<?, ?> currNode = (TreeNode<?, ?>) curr;
                 queue.addLast(currNode.left() == null ? "null" : currNode.left());
